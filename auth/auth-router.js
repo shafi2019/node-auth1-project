@@ -10,7 +10,7 @@ router.post('/register', (req, res) => {
 
     Users.add(user)
         .then(saved => {
-            res.status(201).json(saved);
+            res.status(201).json({ Message: `You are saccessfully registered ${user.username}`, saved});
         })
         .catch(error => {
             res.status(500).json(error);
@@ -35,5 +35,18 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.delete('/logout', (req, res) => {
+    if (req.session) {
+        req.session.destroy((error) => {
+           if (error) {
+               res.status(400).send('you can not Log Out now....')
+           } else {
+               res.send('You are Loged Out, see you soon!')
+           }
+        })
+    } else {
+        res.send();
+    }
+})
 module.exports = router;
 
